@@ -19,11 +19,19 @@ repositories {
             url "https://plugins.gradle.org/m2/"
         }
     def repository = project.hasProperty('qa') ? 'sonarsource-qa' : 'sonarsource'
+   def artifactoryUsername = System.env.'ARTIFACTORY_PRIVATE_USERNAME' ?: (project.hasProperty('artifactoryUsername') ? project.getProperty('artifactoryUsername') : '')
+    def artifactoryPassword = System.env.'ARTIFACTORY_PRIVATE_PASSWORD' ?: (project.hasProperty('artifactoryPassword') ? project.getProperty('artifactoryPassword') : '')
+    if (artifactoryUsername && artifactoryPassword) {
+      credentials {
+        username artifactoryUsername
+        password artifactoryPassword
+      }
  
 }
 dependencies {
    compile 'com.google.guava:guava:18.0'
    compile gradleApi()
+    compile 'org.sonarsource.scanner.api:sonar-scanner-api:2.14.0.2002'    
       classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
     
     }
