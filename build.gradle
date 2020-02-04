@@ -12,13 +12,12 @@ group = 'com.github.jitpack'
 
 sourceCompatibility = 1.8 // java 8
 targetCompatibility = 1.8
-
+buildscript {
 repositories {
   mavenCentral()
     def repository = project.hasProperty('qa') ? 'sonarsource-qa' : 'sonarsource'
    url "https://plugins.gradle.org/m2/"
 }
-buildscript {
 dependencies {
   compile gradleApi()
   compile 'org.sonarsource.scanner.api:sonar-scanner-api:2.14.0.2002'
