@@ -5,7 +5,7 @@ apply plugin: 'maven'
 apply plugin: 'java-gradle-plugin'
 apply plugin: 'jacoco'
 apply plugin: 'groovy'
-apply plugin: 'onarqube-gradle-plugin:2.5'
+apply plugin: 'onarqube-gradle-plugin:2.7'
 
 
 group = 'com.github.jitpack'
@@ -31,10 +31,9 @@ repositories {
 dependencies {
    compile 'com.google.guava:guava:18.0'
    compile gradleApi()
-  
-    testCompile 'junit:junit:4.12'
-    compile 'org.sonarsource.scanner.api:sonar-scanner-api:2.14.0.2002'    
+   compile 'org.sonarsource.scanner.api:sonar-scanner-api:2.14.0.2002'    
       classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
+      testCompile 'junit:junit:4.12'
     
     }
  
