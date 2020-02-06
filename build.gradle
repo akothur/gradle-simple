@@ -1,42 +1,35 @@
 #!groovy
+// The above triggers groovy syntax highlighting in vim
+
 
 apply plugin: 'java'
 apply plugin: 'maven'
-apply plugin: 'java-gradle-plugin'
-apply plugin: 'jacoco'
-apply plugin: 'groovy'
-apply plugin: 'onarqube-gradle-plugin:2.7'
-
-
-group = 'com.github.jitpack'
+apply plugin: "org.sonarqube"
 
 sourceCompatibility = 1.8 // java 8
 targetCompatibility = 1.8
-buildscript {
+
 repositories {
   mavenCentral()
-    maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    def repository = project.hasProperty('qa') ? 'sonarsource-qa' : 'sonarsource'
-   def artifactoryUsername = System.env.'ARTIFACTORY_PRIVATE_USERNAME' ?: (project.hasProperty('artifactoryUsername') ? project.getProperty('artifactoryUsername') : '')
-    def artifactoryPassword = System.env.'ARTIFACTORY_PRIVATE_PASSWORD' ?: (project.hasProperty('artifactoryPassword') ? project.getProperty('artifactoryPassword') : '')
-    if (artifactoryUsername && artifactoryPassword) {
-      credentials {
-        username artifactoryUsername
-        password artifactoryPassword
-      }
- 
 }
-dependencies {
-   compile 'com.google.guava:guava:18.0'
-   compile gradleApi()
-   compile 'org.sonarsource.scanner.api:sonar-scanner-api:2.14.0.2002'    
-      classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
-      testCompile 'junit:junit:4.12'
-    
+
+  
+sonarqube {
+    properties {
+        property "sonar.sourceEncoding", "UTF-8"
     }
- 
+}
+
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+dependencies {
+
+  classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
+}
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -64,7 +57,7 @@ install {
           url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
           distribution 'repo'
         }
-      }
+      } 
     }
   }
 }
@@ -72,5 +65,4 @@ install {
 wrapper {
     gradleVersion = "5.1.1"
     distributionType = Wrapper.DistributionType.ALL
-}
 }
